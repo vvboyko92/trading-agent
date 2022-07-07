@@ -1,3 +1,35 @@
+# Testing settings with ngrok
+
+change the docker-compose from this:
+```yaml
+#from this
+caddy:
+  environment:
+    SERVER_NAME: ${SERVER_NAME:-localhost, caddy:80}
+```
+
+to this
+```yaml
+caddy:
+  environment:
+    SERVER_NAME: :80
+```
+
+run ngrok `ngrok http`
+
+To set telegram webhook paste this url to the browser
+`https://{host}/telegram/set-webhook?url=https://{host}/telegram/get-webhook`
+
+to connect container with node js to this container use the next command
+
+```bash
+docker build -t trading-monitor . && docker run --rm --net=trading-agent_default -p 3000:3000 trading-monitor
+```
+
+`docker build -t trading-monitor` will create the container `trading-monitor` and connect it to `trading-agent_default` network also expose 3000 port
+
+trading monitor should be available by this IP address `172.18.0.5:3000`
+
 # Symfony Docker
 
 A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html), HTTP/3 and HTTPS support.
