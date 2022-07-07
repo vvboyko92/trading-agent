@@ -6,14 +6,13 @@ use App\Entity\TelegramChat;
 use App\Messenger\Telegram\State\CancelState;
 use App\Messenger\Telegram\State\EraseState;
 use App\Messenger\Telegram\State\InitialState;
-use App\Messenger\Telegram\State\StartState;
 use App\Messenger\Telegram\State\TelegramBotContext;
-use App\Messenger\Telegram\State\TelegramState;
 use App\TradingApi\Binance;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class AbstractTelegramBot
 {
@@ -99,9 +98,9 @@ abstract class AbstractTelegramBot
         return isset($previousMessage[0]) ? $previousMessage[0]->getCurrentState() : null;
     }
 
-    public function setWebhook($url): void
+    public function setWebhook($url): ResponseInterface
     {
-        $this->telegramClient->request(Request::METHOD_GET, 'setWebhook', [
+        return $this->telegramClient->request(Request::METHOD_GET, 'setWebhook', [
             'query' => [
                 'url' => $url,
             ],

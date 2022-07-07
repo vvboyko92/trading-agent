@@ -28,9 +28,9 @@ class TelegramBotController extends AbstractController
     public function setWebhook(TelegramBot $bot, Request $request): Response
     {
         $url = $request->query->get('url');
-        $bot->setWebhook($url);
+        $response = $bot->setWebhook($url);
 
-        return new Response();
+        return new Response($response->getContent(), $response->getStatusCode());
     }
 
     /**
