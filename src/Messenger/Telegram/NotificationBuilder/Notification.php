@@ -11,6 +11,11 @@ class Notification
 
     public function toJson(): string
     {
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
         $result = [];
         $classProps = get_class_vars(static::class);
         foreach (array_keys($classProps) as $propName) {
@@ -21,6 +26,6 @@ class Notification
             $result[$propName] = $propValue;
         }
 
-        return json_encode($result);
+        return $result;
     }
 }

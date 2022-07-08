@@ -34,7 +34,7 @@ class SettingsState extends TelegramState
         $chatId = $message['chat']['id'] ?? $message['message']['chat']['id'];
         $notification = $this->resolveMessageCommand($text);
         $notification->chatId = $chatId;
-        $notifyUserEvent = new NotifyUserEvent((array)$notification);
+        $notifyUserEvent = new NotifyUserEvent($notification->toArray());
         $this->dispatcher->dispatch($notifyUserEvent, NotifyUserEvent::NAME);
 
         return [
